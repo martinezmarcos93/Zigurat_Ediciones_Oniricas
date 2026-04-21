@@ -80,9 +80,9 @@ El sitio es 100% estático. Se puede subir directamente a cualquier hosting de a
 - *Fábulas Oníricas I — VI* (6 volúmenes)
 
 ### 🟣 Colección Violeta — Grado Iniciación (Ficciones)
-- *Ficciones Esotéricas I — IX* (9 volúmenes)
+- *Ficciones Esotéricas I — X* (10 volúmenes)
 
-**Total: 20 títulos.** Todos de autoría de Marcos Martínez.
+**Total: 21 títulos.** Todos de autoría de Marcos Martínez.
 
 ---
 
@@ -114,6 +114,12 @@ Tipografías cargadas desde Google Fonts:
 - **Cinzel** — títulos y logos
 - **Cormorant Garamond** — cuerpo de texto y manifiestos
 - **Montserrat** — etiquetas, nav y botones
+
+---
+
+## Producción editorial
+
+Todos los títulos del catálogo fueron impresos en Argentina en 2025. El diseño y maquetación de los libros está a cargo de **Gerardo Hidalgo**. Cada título cuenta con ISBN registrado y depósito legal bajo la Ley 11.723 de propiedad intelectual argentina.
 
 ---
 
