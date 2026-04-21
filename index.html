@@ -1,0 +1,1460 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zigurat Ediciones Oníricas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #C9A84C;
+    --gold-light: #E8C97A;
+    --gold-dim: rgba(201,168,76,0.15);
+    --gold-border: rgba(201,168,76,0.25);
+    --onyx: #080808;
+    --onyx-mid: #111111;
+    --onyx-soft: #181818;
+    --onyx-card: #141414;
+    --border: rgba(255,255,255,0.07);
+    --cream: #F0EAD8;
+    --cream-muted: #9A9080;
+    --emerald: #0D5C3A;
+    --sapphire: #0C2E6E;
+    --violet: #3D1A6E;
+    --crimson: #6E0D1A;
+    --slate: #2E2E2E;
+    --rose-dark: #5C1530;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--onyx);
+    color: var(--cream);
+    font-family: 'Cormorant Garamond', serif;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* CUSTOM CURSOR */
+  .cursor {
+    width: 8px; height: 8px;
+    background: var(--gold);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: transform 0.1s, width 0.2s, height 0.2s, opacity 0.2s;
+  }
+  .cursor-ring {
+    width: 32px; height: 32px;
+    border: 1px solid rgba(201,168,76,0.4);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9998;
+    transform: translate(-50%, -50%);
+    transition: transform 0.15s ease-out, width 0.2s, height 0.2s;
+  }
+  a:hover ~ .cursor, button:hover ~ .cursor { transform: translate(-50%,-50%) scale(2); }
+
+  /* GRAIN OVERLAY */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 1000;
+    opacity: 0.35;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 500;
+    padding: 20px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background 0.4s, padding 0.4s;
+  }
+  nav.scrolled {
+    background: rgba(8,8,8,0.95);
+    padding: 14px 48px;
+    border-bottom: 1px solid var(--border);
+    backdrop-filter: blur(10px);
+  }
+  .nav-logo {
+    font-family: 'Cinzel', serif;
+    font-size: 13px;
+    letter-spacing: 0.3em;
+    color: var(--gold);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .nav-logo-symbol {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .nav-logo-symbol span {
+    display: block;
+    background: var(--gold);
+    height: 2px;
+    border-radius: 1px;
+  }
+  .nav-links {
+    display: flex;
+    gap: 36px;
+    list-style: none;
+  }
+  .nav-links a {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--cream-muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--gold); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    padding: 120px 48px 80px;
+  }
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 60% 50% at 50% 60%, rgba(201,168,76,0.04) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 40% at 20% 80%, rgba(61,26,110,0.08) 0%, transparent 60%),
+      radial-gradient(ellipse 40% 40% at 80% 20%, rgba(12,46,110,0.06) 0%, transparent 60%);
+  }
+  .hero-lines {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    opacity: 0.06;
+  }
+  .hero-lines::before, .hero-lines::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    width: 1px;
+    background: linear-gradient(to bottom, transparent, var(--gold), transparent);
+  }
+  .hero-lines::before { top: 0; height: 40%; transform: translateX(-200px); }
+  .hero-lines::after { bottom: 0; height: 40%; transform: translateX(200px); }
+
+  .hero-zigurat {
+    margin-bottom: 40px;
+    opacity: 0;
+    animation: fadeDown 1.2s ease forwards 0.3s;
+  }
+  .hero-eyebrow {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 24px;
+    opacity: 0;
+    animation: fadeUp 1s ease forwards 0.6s;
+  }
+  .hero-title {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(42px, 7vw, 80px);
+    font-weight: 700;
+    line-height: 1.0;
+    text-align: center;
+    color: var(--cream);
+    letter-spacing: 0.05em;
+    margin-bottom: 12px;
+    opacity: 0;
+    animation: fadeUp 1s ease forwards 0.8s;
+  }
+  .hero-subtitle {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(16px, 2vw, 22px);
+    font-style: italic;
+    color: var(--gold-light);
+    letter-spacing: 0.1em;
+    margin-bottom: 48px;
+    opacity: 0;
+    animation: fadeUp 1s ease forwards 1s;
+  }
+  .hero-manifesto {
+    font-size: clamp(15px, 1.8vw, 20px);
+    font-style: italic;
+    color: var(--cream-muted);
+    text-align: center;
+    max-width: 560px;
+    line-height: 1.9;
+    margin-bottom: 56px;
+    opacity: 0;
+    animation: fadeUp 1s ease forwards 1.2s;
+  }
+  .hero-cta {
+    display: flex;
+    gap: 16px;
+    opacity: 0;
+    animation: fadeUp 1s ease forwards 1.4s;
+  }
+  .btn-primary {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--onyx);
+    background: var(--gold);
+    border: none;
+    padding: 14px 32px;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.15s;
+    text-decoration: none;
+  }
+  .btn-primary:hover { background: var(--gold-light); transform: translateY(-2px); }
+  .btn-ghost {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    background: transparent;
+    border: 1px solid var(--gold-border);
+    padding: 14px 32px;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.15s;
+    text-decoration: none;
+  }
+  .btn-ghost:hover { background: var(--gold-dim); transform: translateY(-2px); }
+
+  .hero-scroll {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    opacity: 0;
+    animation: fadeUp 1s ease forwards 1.8s;
+  }
+  .hero-scroll span {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 8px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--cream-muted);
+  }
+  .hero-scroll-line {
+    width: 1px;
+    height: 40px;
+    background: linear-gradient(to bottom, var(--gold), transparent);
+    animation: scrollPulse 2s ease-in-out infinite;
+  }
+
+  /* DIVIDERS */
+  .section-divider {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    max-width: 200px;
+    margin: 0 auto 64px;
+  }
+  .section-divider-line { flex: 1; height: 1px; background: var(--border); }
+  .section-divider-diamond {
+    width: 6px; height: 6px;
+    background: var(--gold);
+    transform: rotate(45deg);
+    flex-shrink: 0;
+  }
+
+  /* SECTIONS */
+  section {
+    padding: 100px 48px;
+    position: relative;
+  }
+  .section-eyebrow {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    text-align: center;
+    margin-bottom: 16px;
+  }
+  .section-title {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(28px, 4vw, 48px);
+    font-weight: 600;
+    text-align: center;
+    color: var(--cream);
+    margin-bottom: 16px;
+    line-height: 1.1;
+  }
+  .section-body {
+    font-size: 17px;
+    font-style: italic;
+    color: var(--cream-muted);
+    text-align: center;
+    max-width: 560px;
+    margin: 0 auto 64px;
+    line-height: 1.8;
+  }
+
+  /* MANIFIESTO */
+  #manifiesto {
+    background: var(--onyx-mid);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+  .manifesto-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1px;
+    background: var(--border);
+    max-width: 960px;
+    margin: 0 auto;
+  }
+  .manifesto-item {
+    background: var(--onyx-mid);
+    padding: 48px 36px;
+    text-align: center;
+  }
+  .manifesto-item-num {
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: var(--gold);
+    margin-bottom: 16px;
+    display: block;
+  }
+  .manifesto-item-text {
+    font-size: 16px;
+    font-style: italic;
+    color: var(--cream);
+    line-height: 1.8;
+  }
+
+  /* CATALOGO */
+  #catalogo { background: var(--onyx); }
+
+  .filter-bar {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 56px;
+    flex-wrap: wrap;
+  }
+  .filter-btn {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 8px 20px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--cream-muted);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .filter-btn:hover, .filter-btn.active {
+    border-color: var(--gold-border);
+    color: var(--gold);
+    background: var(--gold-dim);
+  }
+  .filter-btn[data-col="azul"].active { border-color: rgba(12,46,110,0.6); background: rgba(12,46,110,0.15); color: #6AACFF; }
+  .filter-btn[data-col="verde"].active { border-color: rgba(13,92,58,0.6); background: rgba(13,92,58,0.15); color: #4ABF8A; }
+  .filter-btn[data-col="violeta"].active { border-color: rgba(61,26,110,0.6); background: rgba(61,26,110,0.15); color: #B07AFF; }
+  .filter-btn[data-col="dorada"].active { border-color: rgba(201,168,76,0.5); background: rgba(201,168,76,0.12); color: var(--gold); }
+
+  .books-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 24px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .book-card {
+    background: var(--onyx-card);
+    border: 1px solid var(--border);
+    transition: transform 0.3s, border-color 0.3s;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+  .book-card:hover {
+    transform: translateY(-6px);
+    border-color: var(--gold-border);
+  }
+  .book-card:hover .book-cover-overlay { opacity: 1; }
+
+  .book-cover {
+    aspect-ratio: 2/3;
+    position: relative;
+    overflow: hidden;
+  }
+  .book-cover-bg {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+  .book-cover-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(8,8,8,0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .book-cover-overlay span {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    border: 1px solid var(--gold-border);
+    padding: 8px 16px;
+  }
+  .book-info {
+    padding: 16px 18px 20px;
+    border-top: 1px solid var(--border);
+  }
+  .book-collection {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 8px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .book-title {
+    font-family: 'Cinzel', serif;
+    font-size: 13px;
+    color: var(--cream);
+    line-height: 1.4;
+    margin-bottom: 4px;
+  }
+  .book-author {
+    font-size: 12px;
+    font-style: italic;
+    color: var(--cream-muted);
+  }
+
+  /* Book cover mock art */
+  .marble-azul {
+    background: linear-gradient(135deg, #0a0e1a 0%, #0d1f4a 30%, #1a3a6e 50%, #0a1a3a 70%, #060a14 100%);
+    position: relative;
+  }
+  .marble-azul::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      -45deg,
+      transparent 0px, transparent 20px,
+      rgba(201,168,76,0.08) 20px, rgba(201,168,76,0.08) 21px
+    ),
+    repeating-linear-gradient(
+      45deg,
+      transparent 0px, transparent 40px,
+      rgba(100,160,255,0.06) 40px, rgba(100,160,255,0.06) 42px
+    );
+  }
+  .marble-verde {
+    background: linear-gradient(135deg, #040f0a 0%, #0d3a20 30%, #0d5c3a 50%, #061a10 70%, #020805 100%);
+    position: relative;
+  }
+  .marble-verde::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      -30deg,
+      transparent 0px, transparent 25px,
+      rgba(201,168,76,0.07) 25px, rgba(201,168,76,0.07) 26px
+    );
+  }
+  .marble-violeta {
+    background: linear-gradient(135deg, #0a040f 0%, #200a3a 30%, #3d1a6e 50%, #180830 70%, #060208 100%);
+  }
+  .marble-dorada {
+    background: linear-gradient(135deg, #0a0800 0%, #1a1200 30%, #2a1e00 50%, #1a1000 70%, #080600 100%);
+    position: relative;
+  }
+  .marble-dorada::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      60deg,
+      transparent 0px, transparent 15px,
+      rgba(201,168,76,0.15) 15px, rgba(201,168,76,0.15) 16px
+    );
+  }
+
+  .book-cover-inner {
+    position: absolute;
+    inset: 12px;
+    border: 1px solid rgba(201,168,76,0.3);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 12px;
+    text-align: center;
+  }
+  .bci-col {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 7px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 8px;
+  }
+  .bci-title {
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    color: var(--cream);
+    line-height: 1.4;
+    margin-bottom: 12px;
+  }
+  .bci-logo {
+    font-family: 'Cinzel', serif;
+    font-size: 14px;
+    color: var(--gold);
+    letter-spacing: 0.05em;
+  }
+
+  /* COLECCIONES */
+  #colecciones { background: var(--onyx-mid); }
+  .collections-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    max-width: 960px;
+    margin: 0 auto;
+    background: var(--border);
+  }
+  .col-item {
+    padding: 48px 44px;
+    display: flex;
+    gap: 24px;
+    align-items: flex-start;
+    transition: background 0.3s;
+  }
+  .col-item:hover { background: rgba(255,255,255,0.02); }
+  .col-dot-large {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-top: 4px;
+  }
+  .col-content {}
+  .col-grade {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 8px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .col-name-large {
+    font-family: 'Cinzel', serif;
+    font-size: 20px;
+    color: var(--cream);
+    margin-bottom: 8px;
+  }
+  .col-desc {
+    font-size: 14px;
+    font-style: italic;
+    color: var(--cream-muted);
+    line-height: 1.7;
+  }
+
+  /* SOBRE */
+  #sobre { background: var(--onyx); }
+  .sobre-inner {
+    max-width: 680px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  .sobre-quote {
+    font-size: clamp(20px, 2.5vw, 28px);
+    font-style: italic;
+    color: var(--cream);
+    line-height: 1.8;
+    margin-bottom: 48px;
+    position: relative;
+    padding: 40px 48px;
+    border-top: 1px solid var(--gold-border);
+    border-bottom: 1px solid var(--gold-border);
+  }
+  .sobre-text {
+    font-size: 16px;
+    color: var(--cream-muted);
+    line-height: 1.9;
+    margin-bottom: 24px;
+  }
+
+  /* COMPRAR */
+  #comprar {
+    background: var(--onyx-mid);
+    border-top: 1px solid var(--border);
+  }
+  .buy-options {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 2px;
+    max-width: 960px;
+    margin: 0 auto 64px;
+    background: var(--border);
+  }
+  .buy-option {
+    background: var(--onyx-card);
+    padding: 44px 36px;
+    text-align: center;
+    transition: background 0.3s;
+  }
+  .buy-option:hover { background: rgba(201,168,76,0.03); }
+  .buy-icon {
+    font-family: 'Cinzel', serif;
+    font-size: 24px;
+    color: var(--gold);
+    margin-bottom: 20px;
+    display: block;
+  }
+  .buy-title {
+    font-family: 'Cinzel', serif;
+    font-size: 16px;
+    color: var(--cream);
+    margin-bottom: 12px;
+  }
+  .buy-desc {
+    font-size: 14px;
+    font-style: italic;
+    color: var(--cream-muted);
+    line-height: 1.7;
+    margin-bottom: 24px;
+  }
+  .buy-link {
+    display: inline-block;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gold);
+    border: 1px solid var(--gold-border);
+    padding: 10px 24px;
+    text-decoration: none;
+    transition: background 0.2s;
+  }
+  .buy-link:hover { background: var(--gold-dim); }
+
+  /* EMAIL SIGNUP */
+  .email-section {
+    max-width: 520px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  .email-title {
+    font-family: 'Cinzel', serif;
+    font-size: 22px;
+    color: var(--cream);
+    margin-bottom: 12px;
+  }
+  .email-subtitle {
+    font-size: 15px;
+    font-style: italic;
+    color: var(--cream-muted);
+    margin-bottom: 32px;
+    line-height: 1.7;
+  }
+  .email-form {
+    display: flex;
+    gap: 0;
+    border: 1px solid var(--gold-border);
+  }
+  .email-input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    padding: 14px 20px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 15px;
+    color: var(--cream);
+    outline: none;
+  }
+  .email-input::placeholder { color: var(--cream-muted); font-style: italic; }
+  .email-submit {
+    background: var(--gold);
+    border: none;
+    padding: 14px 24px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--onyx);
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .email-submit:hover { background: var(--gold-light); }
+  .email-confirm {
+    display: none;
+    color: var(--gold);
+    font-style: italic;
+    font-size: 15px;
+    margin-top: 16px;
+  }
+
+  /* MODAL */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.85);
+    z-index: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+    backdrop-filter: blur(4px);
+  }
+  .modal-overlay.open { opacity: 1; pointer-events: all; }
+  .modal {
+    background: var(--onyx-soft);
+    border: 1px solid var(--gold-border);
+    max-width: 560px;
+    width: 100%;
+    padding: 48px;
+    position: relative;
+    transform: translateY(20px);
+    transition: transform 0.3s;
+  }
+  .modal-overlay.open .modal { transform: translateY(0); }
+  .modal-close {
+    position: absolute;
+    top: 16px; right: 20px;
+    background: none;
+    border: none;
+    color: var(--cream-muted);
+    font-size: 20px;
+    cursor: pointer;
+    font-family: 'Montserrat', sans-serif;
+  }
+  .modal-close:hover { color: var(--gold); }
+  .modal-collection {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 8px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .modal-title {
+    font-family: 'Cinzel', serif;
+    font-size: 26px;
+    color: var(--cream);
+    margin-bottom: 8px;
+    line-height: 1.2;
+  }
+  .modal-author {
+    font-size: 15px;
+    font-style: italic;
+    color: var(--cream-muted);
+    margin-bottom: 24px;
+  }
+  .modal-divider {
+    height: 1px;
+    background: var(--border);
+    margin-bottom: 24px;
+  }
+  .modal-desc {
+    font-size: 15px;
+    color: var(--cream-muted);
+    line-height: 1.8;
+    margin-bottom: 32px;
+  }
+  .modal-actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  /* FOOTER */
+  footer {
+    background: var(--onyx);
+    border-top: 1px solid var(--border);
+    padding: 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .footer-logo {
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    color: var(--gold);
+  }
+  .footer-text {
+    font-size: 12px;
+    color: var(--cream-muted);
+    font-style: italic;
+  }
+  .footer-links {
+    display: flex;
+    gap: 24px;
+  }
+  .footer-links a {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 8px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--cream-muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .footer-links a:hover { color: var(--gold); }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes scrollPulse {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 1; }
+  }
+
+  /* SCROLL REVEAL */
+  .reveal {
+    opacity: 0;
+    transform: translateY(32px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    nav { padding: 16px 24px; }
+    nav.scrolled { padding: 12px 24px; }
+    .nav-links { display: none; }
+    section { padding: 72px 24px; }
+    .hero { padding: 100px 24px 72px; }
+    .manifesto-grid { grid-template-columns: 1fr; }
+    .collections-list { grid-template-columns: 1fr; }
+    .buy-options { grid-template-columns: 1fr; }
+    footer { flex-direction: column; text-align: center; }
+    .hero-cta { flex-direction: column; align-items: center; }
+    .email-form { flex-direction: column; }
+    .modal { padding: 32px 24px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- CURSOR -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav id="mainNav">
+  <a href="#" class="nav-logo">
+    <img src="assets/icons/logo blanco-22.png" alt="Zigurat Ediciones Oníricas" style="height:40px;width:auto;display:block;">
+  </a>
+  <ul class="nav-links">
+    <li><a href="#catalogo">Catálogo</a></li>
+    <li><a href="#colecciones">Colecciones</a></li>
+    <li><a href="#sobre">Editorial</a></li>
+    <li><a href="#comprar">Adquirir</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="inicio">
+  <div class="hero-bg"></div>
+  <div class="hero-lines"></div>
+
+  <div class="hero-zigurat">
+    <img src="assets/icons/ZEO SIN FONDO-12.png" alt="Zigurat Ediciones Oníricas" style="width:120px;height:auto;display:block;margin:0 auto;">
+  </div>
+
+  <div class="hero-eyebrow">Ediciones Oníricas · Buenos Aires</div>
+  <h1 class="hero-title">ZIGURAT</h1>
+  <div class="hero-subtitle">Ediciones Oníricas</div>
+  <p class="hero-manifesto">
+    No publicamos para el mercado.<br>
+    Publicamos para quienes están dispuestos<br>
+    a mirarse en los espejos que otros evitan.
+  </p>
+  <div class="hero-cta">
+    <a href="#catalogo" class="btn-primary">Ver Catálogo</a>
+    <a href="#comprar" class="btn-ghost">Cómo Adquirir</a>
+  </div>
+
+  <div class="hero-scroll">
+    <div class="hero-scroll-line"></div>
+  </div>
+</section>
+
+<!-- MANIFIESTO -->
+<section id="manifiesto">
+  <div class="section-eyebrow reveal">Nuestra Razón de Ser</div>
+  <h2 class="section-title reveal">El Dispositivo de Ascenso</h2>
+  <div class="manifesto-grid reveal">
+    <div class="manifesto-item">
+      <span class="manifesto-item-num">I</span>
+      <p class="manifesto-item-text">Cada libro es un umbral. No un entretenimiento — una herramienta de autoconocimiento que exige algo del lector.</p>
+    </div>
+    <div class="manifesto-item">
+      <span class="manifesto-item-num">II</span>
+      <p class="manifesto-item-text">La oscuridad no se evade. Se examina, se integra y se convierte — peldaño a peldaño — en sabiduría.</p>
+    </div>
+    <div class="manifesto-item">
+      <span class="manifesto-item-num">III</span>
+      <p class="manifesto-item-text">No competimos con editoriales masivas. Somos una editorial de culto para lectores que ya terminaron con las respuestas fáciles.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CATALOGO -->
+<section id="catalogo">
+  <div class="section-eyebrow reveal">Obras Publicadas</div>
+  <h2 class="section-title reveal">Catálogo</h2>
+
+  <div class="filter-bar reveal">
+    <button class="filter-btn active" data-col="todos" onclick="filterBooks('todos', this)">Todos</button>
+    <button class="filter-btn" data-col="dorada" onclick="filterBooks('dorada', this)">● Dorada</button>
+    <button class="filter-btn" data-col="azul" onclick="filterBooks('azul', this)">● Azul</button>
+    <button class="filter-btn" data-col="verde" onclick="filterBooks('verde', this)">● Verde</button>
+    <button class="filter-btn" data-col="violeta" onclick="filterBooks('violeta', this)">● Violeta</button>
+  </div>
+
+  <div class="books-grid" id="booksGrid">
+    <!-- DORADA -->
+    <div class="book-card" data-col="dorada" onclick="openModal('siete-esotericos')">
+      <div class="book-cover">
+        <img src="assets/colections/Colección Dorada.png" alt="Siete Ensayos Esotéricos" style="width:100%;height:100%;object-fit:cover;display:block;">
+        <div class="book-cover-overlay"><span>Ver detalles</span></div>
+      </div>
+      <div class="book-info">
+        <div class="book-collection" style="color:var(--gold)">Colección Dorada · Ensayos</div>
+        <div class="book-title">Siete Ensayos Esotéricos</div>
+        <div class="book-author">Marcos Martínez</div>
+      </div>
+    </div>
+
+    <!-- AZUL -->
+    <div class="book-card" data-col="azul" onclick="openModal('relatos1')">
+      <div class="book-cover">
+        <img src="assets/colections/Colección Azul 1.png" alt="Relatos del Zigurat I" style="width:100%;height:100%;object-fit:cover;display:block;">
+        <div class="book-cover-overlay"><span>Ver detalles</span></div>
+      </div>
+      <div class="book-info">
+        <div class="book-collection" style="color:#6AACFF">Colección Azul · Microrelatos</div>
+        <div class="book-title">Relatos del Zigurat I</div>
+        <div class="book-author">Marcos Martínez</div>
+      </div>
+    </div>
+
+    <div class="book-card" data-col="azul" onclick="openModal('relatos2')">
+      <div class="book-cover">
+        <img src="assets/colections/Colección Azul 2.png" alt="Relatos del Zigurat II" style="width:100%;height:100%;object-fit:cover;display:block;">
+        <div class="book-cover-overlay"><span>Ver detalles</span></div>
+      </div>
+      <div class="book-info">
+        <div class="book-collection" style="color:#6AACFF">Colección Azul · Microrelatos</div>
+        <div class="book-title">Relatos del Zigurat II</div>
+        <div class="book-author">Marcos Martínez</div>
+      </div>
+    </div>
+
+    <div class="book-card" data-col="azul" onclick="openModal('relatos3')">
+      <div class="book-cover">
+        <img src="assets/colections/Colección Azul 3.png" alt="Relatos del Zigurat III" style="width:100%;height:100%;object-fit:cover;display:block;">
+        <div class="book-cover-overlay"><span>Ver detalles</span></div>
+      </div>
+      <div class="book-info">
+        <div class="book-collection" style="color:#6AACFF">Colección Azul · Microrelatos</div>
+        <div class="book-title">Relatos del Zigurat III</div>
+        <div class="book-author">Marcos Martínez</div>
+      </div>
+    </div>
+
+    <div class="book-card" data-col="azul" onclick="openModal('relatos4')">
+      <div class="book-cover">
+        <img src="assets/colections/Colección Azul 4.png" alt="Relatos del Zigurat IV" style="width:100%;height:100%;object-fit:cover;display:block;">
+        <div class="book-cover-overlay"><span>Ver detalles</span></div>
+      </div>
+      <div class="book-info">
+        <div class="book-collection" style="color:#6AACFF">Colección Azul · Microrelatos</div>
+        <div class="book-title">Relatos del Zigurat IV</div>
+        <div class="book-author">Marcos Martínez</div>
+      </div>
+    </div>
+
+    <!-- VERDE -->
+    <div class="book-card" data-col="verde" onclick="openModal('fabulas1')">
+      <div class="book-cover">
+        <img src="assets/colections/Colección Verde 1.png" alt="Fábulas Oníricas I" style="width:100%;height:100%;object-fit:cover;display:block;">
+        <div class="book-cover-overlay"><span>Ver detalles</span></div>
+      </div>
+      <div class="book-info">
+        <div class="book-collection" style="color:#4ABF8A">Colección Verde · Fábulas</div>
+        <div class="book-title">Fábulas Oníricas I</div>
+        <div class="book-author">Marcos Martínez</div>
+      </div>
+    </div>
+
+    <div class="book-card" data-col="verde" onclick="openModal('fabulas2')">
+      <div class="book-cover">
+        <img src="assets/colections/Colección Verde 2.png" alt="Fábulas Oníricas II" style="width:100%;height:100%;object-fit:cover;display:block;">
+        <div class="book-cover-overlay"><span>Ver detalles</span></div>
+      </div>
+      <div class="book-info">
+        <div class="book-collection" style="color:#4ABF8A">Colección Verde · Fábulas</div>
+        <div class="book-title">Fábulas Oníricas II</div>
+        <div class="book-author">Marcos Martínez</div>
+      </div>
+    </div>
+
+    <div class="book-card" data-col="verde" onclick="openModal('fabulas3')">
+      <div class="book-cover">
+        <img src="assets/colections/Colección Verde 3.png" alt="Fábulas Oníricas III" style="width:100%;height:100%;object-fit:cover;display:block;">
+        <div class="book-cover-overlay"><span>Ver detalles</span></div>
+      </div>
+      <div class="book-info">
+        <div class="book-collection" style="color:#4ABF8A">Colección Verde · Fábulas</div>
+        <div class="book-title">Fábulas Oníricas III</div>
+        <div class="book-author">Marcos Martínez</div>
+      </div>
+    </div>
+
+    <div class="book-card" data-col="verde" onclick="openModal('fabulas4')">
+      <div class="book-cover">
+        <img src="assets/colections/Colección Verde 4.png" alt="Fábulas Oníricas IV" style="width:100%;height:100%;object-fit:cover;display:block;">
+        <div class="book-cover-overlay"><span>Ver detalles</span></div>
+      </div>
+      <div class="book-info">
+        <div class="book-collection" style="color:#4ABF8A">Colección Verde · Fábulas</div>
+        <div class="book-title">Fábulas Oníricas IV</div>
+        <div class="book-author">Marcos Martínez</div>
+      </div>
+    </div>
+
+    <div class="book-card" data-col="verde" onclick="openModal('fabulas5')">
+      <div class="book-cover">
+        <img src="assets/colections/Colección Verde 5.png" alt="Fábulas Oníricas V" style="width:100%;height:100%;object-fit:cover;display:block;">
+        <div class="book-cover-overlay"><span>Ver detalles</span></div>
+      </div>
+      <div class="book-info">
+        <div class="book-collection" style="color:#4ABF8A">Colección Verde · Fábulas</div>
+        <div class="book-title">Fábulas Oníricas V</div>
+        <div class="book-author">Marcos Martínez</div>
+      </div>
+    </div>
+
+    <div class="book-card" data-col="verde" onclick="openModal('fabulas6')">
+      <div class="book-cover">
+        <img src="assets/colections/Colección Verde 6.png" alt="Fábulas Oníricas VI" style="width:100%;height:100%;object-fit:cover;display:block;">
+        <div class="book-cover-overlay"><span>Ver detalles</span></div>
+      </div>
+      <div class="book-info">
+        <div class="book-collection" style="color:#4ABF8A">Colección Verde · Fábulas</div>
+        <div class="book-title">Fábulas Oníricas VI</div>
+        <div class="book-author">Marcos Martínez</div>
+      </div>
+    </div>
+
+    <!-- VIOLETA -->
+    <div class="book-card" data-col="violeta" onclick="openModal('ficciones1')">
+      <div class="book-cover">
+        <img src="assets/colections/Colección Violeta 1.png" alt="Ficciones Esotéricas I" style="width:100%;height:100%;object-fit:cover;display:block;">
+        <div class="book-cover-overlay"><span>Ver detalles</span></div>
+      </div>
+      <div class="book-info">
+        <div class="book-collection" style="color:#B07AFF">Colección Violeta · Ficciones</div>
+        <div class="book-title">Ficciones Esotéricas I</div>
+        <div class="book-author">Marcos Martínez</div>
+      </div>
+    </div>
+
+    <div class="book-card" data-col="violeta" onclick="openModal('ficciones2')">
+      <div class="book-cover">
+        <img src="assets/colections/Colección Violeta 2.png" alt="Ficciones Esotéricas II" style="width:100%;height:100%;object-fit:cover;display:block;">
+        <div class="book-cover-overlay"><span>Ver detalles</span></div>
+      </div>
+      <div class="book-info">
+        <div class="book-collection" style="color:#B07AFF">Colección Violeta · Ficciones</div>
+        <div class="book-title">Ficciones Esotéricas II</div>
+        <div class="book-author">Marcos Martínez</div>
+      </div>
+    </div>
+
+    <div class="book-card" data-col="violeta" onclick="openModal('ficciones3')">
+      <div class="book-cover">
+        <img src="assets/colections/Colección Violeta 3.png" alt="Ficciones Esotéricas III" style="width:100%;height:100%;object-fit:cover;display:block;">
+        <div class="book-cover-overlay"><span>Ver detalles</span></div>
+      </div>
+      <div class="book-info">
+        <div class="book-collection" style="color:#B07AFF">Colección Violeta · Ficciones</div>
+        <div class="book-title">Ficciones Esotéricas III</div>
+        <div class="book-author">Marcos Martínez</div>
+      </div>
+    </div>
+
+    <div class="book-card" data-col="violeta" onclick="openModal('ficciones4')">
+      <div class="book-cover">
+        <img src="assets/colections/Colección Violeta 4.png" alt="Ficciones Esotéricas IV" style="width:100%;height:100%;object-fit:cover;display:block;">
+        <div class="book-cover-overlay"><span>Ver detalles</span></div>
+      </div>
+      <div class="book-info">
+        <div class="book-collection" style="color:#B07AFF">Colección Violeta · Ficciones</div>
+        <div class="book-title">Ficciones Esotéricas IV</div>
+        <div class="book-author">Marcos Martínez</div>
+      </div>
+    </div>
+
+    <div class="book-card" data-col="violeta" onclick="openModal('ficciones5')">
+      <div class="book-cover">
+        <img src="assets/colections/Colección Violeta 5.png" alt="Ficciones Esotéricas V" style="width:100%;height:100%;object-fit:cover;display:block;">
+        <div class="book-cover-overlay"><span>Ver detalles</span></div>
+      </div>
+      <div class="book-info">
+        <div class="book-collection" style="color:#B07AFF">Colección Violeta · Ficciones</div>
+        <div class="book-title">Ficciones Esotéricas V</div>
+        <div class="book-author">Marcos Martínez</div>
+      </div>
+    </div>
+
+    <div class="book-card" data-col="violeta" onclick="openModal('ficciones6')">
+      <div class="book-cover">
+        <img src="assets/colections/Colección Violeta 6.png" alt="Ficciones Esotéricas VI" style="width:100%;height:100%;object-fit:cover;display:block;">
+        <div class="book-cover-overlay"><span>Ver detalles</span></div>
+      </div>
+      <div class="book-info">
+        <div class="book-collection" style="color:#B07AFF">Colección Violeta · Ficciones</div>
+        <div class="book-title">Ficciones Esotéricas VI</div>
+        <div class="book-author">Marcos Martínez</div>
+      </div>
+    </div>
+
+    <div class="book-card" data-col="violeta" onclick="openModal('ficciones7')">
+      <div class="book-cover">
+        <img src="assets/colections/Colección Violeta 7.png" alt="Ficciones Esotéricas VII" style="width:100%;height:100%;object-fit:cover;display:block;">
+        <div class="book-cover-overlay"><span>Ver detalles</span></div>
+      </div>
+      <div class="book-info">
+        <div class="book-collection" style="color:#B07AFF">Colección Violeta · Ficciones</div>
+        <div class="book-title">Ficciones Esotéricas VII</div>
+        <div class="book-author">Marcos Martínez</div>
+      </div>
+    </div>
+
+    <div class="book-card" data-col="violeta" onclick="openModal('ficciones8')">
+      <div class="book-cover">
+        <img src="assets/colections/Colección Violeta 8.png" alt="Ficciones Esotéricas VIII" style="width:100%;height:100%;object-fit:cover;display:block;">
+        <div class="book-cover-overlay"><span>Ver detalles</span></div>
+      </div>
+      <div class="book-info">
+        <div class="book-collection" style="color:#B07AFF">Colección Violeta · Ficciones</div>
+        <div class="book-title">Ficciones Esotéricas VIII</div>
+        <div class="book-author">Marcos Martínez</div>
+      </div>
+    </div>
+
+    <div class="book-card" data-col="violeta" onclick="openModal('ficciones9')">
+      <div class="book-cover">
+        <img src="assets/colections/Colección Violeta 9.png" alt="Ficciones Esotéricas IX" style="width:100%;height:100%;object-fit:cover;display:block;">
+        <div class="book-cover-overlay"><span>Ver detalles</span></div>
+      </div>
+      <div class="book-info">
+        <div class="book-collection" style="color:#B07AFF">Colección Violeta · Ficciones</div>
+        <div class="book-title">Ficciones Esotéricas IX</div>
+        <div class="book-author">Marcos Martínez</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COLECCIONES -->
+<section id="colecciones">
+  <div class="section-eyebrow reveal">Sistema de Grados</div>
+  <h2 class="section-title reveal">Las Colecciones</h2>
+  <p class="section-body reveal">Cada color es un nivel de iniciación. El lector elige su profundidad.</p>
+  <div class="collections-list reveal">
+    <div class="col-item" style="background:var(--onyx-card)">
+      <div class="col-dot-large" style="background:#C9A84C"></div>
+      <div class="col-content">
+        <div class="col-grade" style="color:var(--gold)">Grado Sabiduría · 1 volumen</div>
+        <div class="col-name-large">Colección Dorada</div>
+        <div class="col-desc">Un recorrido por los grandes enigmas de la existencia desde una mirada filosófica, simbólica y espiritual. Hermetismo, existencialismo, pensamiento gnóstico y filosofía oriental se articulan para interrogar la experiencia humana: ¿Qué significa ser? ¿Qué papel cumple el lenguaje en la construcción del mundo? ¿Cómo opera la dualidad entre lo visible y lo oculto? Cada ensayo funciona como una meditación abierta, no como respuesta cerrada.</div>
+      </div>
+    </div>
+    <div class="col-item" style="background:var(--onyx-card)">
+      <div class="col-dot-large" style="background:#0C2E6E"></div>
+      <div class="col-content">
+        <div class="col-grade" style="color:#6AACFF">Grado Reflexión · 4 volúmenes</div>
+        <div class="col-name-large">Colección Azul</div>
+        <div class="col-desc">Microrrelatos que exploran, desde distintos ángulos filosóficos, el proceso de emancipación individual. Confluyen el existencialismo, el pensamiento oriental, el misticismo simbólico y la crítica a las estructuras de poder y obediencia. Cada texto propone una situación límite en la que los personajes toman conciencia de su libertad, su responsabilidad y su capacidad de transformar el mundo que habitan.</div>
+      </div>
+    </div>
+    <div class="col-item" style="background:var(--onyx-card)">
+      <div class="col-dot-large" style="background:#0D5C3A"></div>
+      <div class="col-content">
+        <div class="col-grade" style="color:#4ABF8A">Grado Umbral · 6 volúmenes</div>
+        <div class="col-name-large">Colección Verde</div>
+        <div class="col-desc">Relatos breves que utilizan el lenguaje del sueño, la naturaleza y el símbolo para explorar los grandes dilemas humanos: la libertad, el tiempo, el amor, la muerte y el sentido de la existencia. Inspiradas en la tradición de la fábula pero con enfoque contemporáneo y filosófico, estas historias convocan a animales, astros y elementos como metáforas vivas de procesos internos. No dan moraleja — dan pregunta.</div>
+      </div>
+    </div>
+    <div class="col-item" style="background:var(--onyx-card)">
+      <div class="col-dot-large" style="background:#3D1A6E"></div>
+      <div class="col-content">
+        <div class="col-grade" style="color:#B07AFF">Grado Iniciación · 9 volúmenes</div>
+        <div class="col-name-large">Colección Violeta</div>
+        <div class="col-desc">Relatos filosófico-místicos que combinan el ensayo simbólico, la ficción ritual y el mito personal. Inspiradas en el esoterismo occidental, el gnosticismo, la mitología ancestral y la filosofía del lenguaje, estas narraciones descienden a lo más profundo del Abismo en busca de verdades veladas por la razón. A través de grimorios prohibidos, viajes a inframundos y rituales arquetípicos, el lector se ve confrontado con lo desconocido no como objeto de miedo, sino como camino hacia la transformación. Más que relatos, estas ficciones son umbrales. Quien las cruce, no saldrá indemne.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SOBRE -->
+<section id="sobre">
+  <div class="sobre-inner">
+    <div class="section-eyebrow reveal">La Editorial</div>
+    <h2 class="section-title reveal">Sobre Zigurat</h2>
+    <div class="sobre-quote reveal">
+      "El zigurat no es solo una estructura.<br>Es un dispositivo para ascender entre planos."
+    </div>
+    <p class="sobre-text reveal">
+      Zigurat Ediciones Oníricas es un proyecto editorial independiente dedicado a la publicación de obras en el cruce entre filosofía, ocultismo y exploración de la conciencia. No competimos con editoriales comerciales — construimos un catálogo de culto para lectores que buscan textos que los confronten.
+    </p>
+    <p class="sobre-text reveal">
+      Marcos Martínez es el autor detrás de cada título del catálogo. Su escritura no parte de una posición académica ni de una tradición religiosa establecida — parte de la experiencia directa: del trabajo con la sombra, del cuestionamiento de las certezas heredadas, de la búsqueda honesta en los territorios donde la razón se detiene. En sus textos conviven el existencialismo, el pensamiento hermético, la psicología profunda y la filosofía del lenguaje, no como referencias eruditas sino como herramientas vivas.
+    </p>
+    <p class="sobre-text reveal" style="color:var(--gold);font-style:italic;font-size:15px;">
+      No vendemos libros. Vendemos procesos de transformación interior a través del pensamiento simbólico.
+    </p>
+  </div>
+</section>
+
+<!-- COMPRAR -->
+<section id="comprar">
+  <div class="section-eyebrow reveal">Adquirir</div>
+  <h2 class="section-title reveal">Cómo Obtener los Libros</h2>
+
+  <div style="max-width:680px;margin:0 auto 64px;text-align:center;" class="reveal">
+    <div style="background:var(--onyx-card);border:1px solid var(--gold-border);padding:56px 48px;">
+      <div style="font-family:'Cinzel',serif;font-size:32px;color:var(--gold);margin-bottom:24px;">▲</div>
+      <div style="font-family:'Cinzel',serif;font-size:22px;color:var(--cream);margin-bottom:20px;">Contacto Directo con el Autor</div>
+      <p style="font-size:16px;font-style:italic;color:var(--cream-muted);line-height:1.9;margin-bottom:12px;">
+        Cada libro se entrega en comunicación directa con Marcos Martínez.<br>
+        Podés solicitar la <strong style="color:var(--cream);font-style:normal;">versión digital</strong> o la <strong style="color:var(--cream);font-style:normal;">versión impresa</strong> —<br>
+        una pieza artesanal producida con el mismo rigor que su contenido.
+      </p>
+      <p style="font-size:14px;color:var(--cream-muted);font-style:italic;margin-bottom:40px;line-height:1.7;">
+        La venta se concreta en conversación. Sin intermediarios.
+      </p>
+      <a href="https://wa.me/5491151062286" target="_blank" rel="noopener"
+         style="display:inline-flex;align-items:center;gap:12px;background:var(--gold);color:var(--onyx);font-family:'Montserrat',sans-serif;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;padding:16px 40px;text-decoration:none;transition:background 0.2s;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Escribir por WhatsApp
+      </a>
+      <div style="margin-top:20px;font-family:'Montserrat',sans-serif;font-size:10px;letter-spacing:0.15em;color:var(--cream-muted);">
+        +54 9 11 5106 2286
+      </div>
+    </div>
+  </div>
+
+  <div class="email-section reveal">
+    <div class="email-title">Recibir Novedades</div>
+    <p class="email-subtitle">Para quienes quieren leer lo que no está en otro lado.<br>Reflexiones y lanzamientos — sin ruido.</p>
+    <div class="email-form" id="emailForm">
+      <input type="email" class="email-input" id="emailInput" placeholder="tu@email.com">
+      <button class="email-submit" onclick="subscribeEmail()">Suscribirse</button>
+    </div>
+    <div class="email-confirm" id="emailConfirm">
+      — Recibido. Te escribiremos pronto. —
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">ZIGURAT · EDICIONES ONÍRICAS</div>
+  <div class="footer-text">Peldaño a peldaño. Ese es el método.</div>
+  <div class="footer-links">
+    <a href="#catalogo">Catálogo</a>
+    <a href="#sobre">Editorial</a>
+    <a href="mailto:contacto@ziguratediciones.com">Contacto</a>
+  </div>
+</footer>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModalOutside(event)">
+  <div class="modal" id="modalContent">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-collection" id="modalCollection"></div>
+    <div class="modal-title" id="modalTitle"></div>
+    <div class="modal-author" id="modalAuthor">Marcos Martínez</div>
+    <div class="modal-divider"></div>
+    <div class="modal-desc" id="modalDesc"></div>
+    <div class="modal-actions">
+      <a href="#comprar" class="btn-primary" onclick="closeModal()" style="font-size:9px;padding:12px 24px;">Cómo Adquirir</a>
+      <button class="btn-ghost" onclick="closeModal()" style="font-size:9px;padding:12px 24px;">Cerrar</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// CURSOR
+const cursor = document.getElementById('cursor');
+const cursorRing = document.getElementById('cursorRing');
+document.addEventListener('mousemove', e => {
+  cursor.style.left = e.clientX + 'px';
+  cursor.style.top = e.clientY + 'px';
+  setTimeout(() => {
+    cursorRing.style.left = e.clientX + 'px';
+    cursorRing.style.top = e.clientY + 'px';
+  }, 80);
+});
+document.querySelectorAll('a,button,.book-card').forEach(el => {
+  el.addEventListener('mouseenter', () => {
+    cursor.style.transform = 'translate(-50%,-50%) scale(2.5)';
+    cursorRing.style.transform = 'translate(-50%,-50%) scale(1.5)';
+  });
+  el.addEventListener('mouseleave', () => {
+    cursor.style.transform = 'translate(-50%,-50%) scale(1)';
+    cursorRing.style.transform = 'translate(-50%,-50%) scale(1)';
+  });
+});
+
+// NAV SCROLL
+window.addEventListener('scroll', () => {
+  document.getElementById('mainNav').classList.toggle('scrolled', window.scrollY > 60);
+});
+
+// SCROLL REVEAL
+const revealEls = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }
+  });
+}, { threshold: 0.12 });
+revealEls.forEach(el => observer.observe(el));
+
+// FILTER
+function filterBooks(col, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.book-card').forEach(card => {
+    card.style.display = (col === 'todos' || card.dataset.col === col) ? 'block' : 'none';
+  });
+}
+
+// BOOK DATA
+const books = {
+  'relatos1': {
+    collection: 'Colección Azul · Microrelatos',
+    collectionColor: '#6AACFF',
+    title: 'Relatos del Zigurat I',
+    desc: 'Una serie de microrrelatos que exploran, desde distintos ángulos filosóficos, el proceso de emancipación individual. En ellos confluyen el existencialismo, el pensamiento oriental, el misticismo simbólico y la crítica a las estructuras de poder. Cada texto propone una situación límite en la que el personaje toma conciencia de su libertad y su responsabilidad.'
+  },
+  'relatos2': { collection: 'Colección Azul · Microrelatos', collectionColor: '#6AACFF', title: 'Relatos del Zigurat II', desc: 'Continúa el recorrido por las situaciones límite donde la emancipación individual se vuelve ineludible. Microrrelatos que combinan filosofía y literatura para provocar al lector desde ángulos distintos.' },
+  'relatos3': { collection: 'Colección Azul · Microrelatos', collectionColor: '#6AACFF', title: 'Relatos del Zigurat III', desc: 'El tercer volumen de la serie profundiza en la crítica a las estructuras de obediencia y el cuestionamiento de las certezas heredadas. Narrativa breve y precisa al servicio del pensamiento.' },
+  'relatos4': { collection: 'Colección Azul · Microrelatos', collectionColor: '#6AACFF', title: 'Relatos del Zigurat IV', desc: 'Cierre del primer ciclo de Relatos del Zigurat. Los personajes enfrentan aquí sus decisiones más profundas: ejercicios de pensamiento y sensibilidad que combinan filosofía y literatura.' },
+  'fabulas1': { collection: 'Colección Verde · Microrelatos', collectionColor: '#4ABF8A', title: 'Fábulas Oníricas I', desc: 'Relatos breves que utilizan el lenguaje del sueño, la naturaleza y el símbolo para explorar los grandes dilemas humanos: la libertad, el tiempo, el amor, la muerte. Animales, astros y elementos como metáforas vivas de procesos internos.' },
+  'fabulas2': { collection: 'Colección Verde · Microrelatos', collectionColor: '#4ABF8A', title: 'Fábulas Oníricas II', desc: 'El segundo volumen propone nuevas preguntas desde el lenguaje simbólico. No moraleja tradicional — sino un espejo, a veces críptico, donde el lector intuirá algo de su propia verdad.' },
+  'fabulas3': { collection: 'Colección Verde · Microrelatos', collectionColor: '#4ABF8A', title: 'Fábulas Oníricas III', desc: 'Inspiradas en la tradición de la fábula pero con enfoque contemporáneo y filosófico. El diálogo entre existencialismo, pensamiento oriental y psicología profunda alcanza nuevas capas.' },
+  'fabulas4': { collection: 'Colección Verde · Microrelatos', collectionColor: '#4ABF8A', title: 'Fábulas Oníricas IV', desc: 'El cuarto libro de la serie verde ahonda en la pregunta central: ¿qué parte de nosotros necesita transformarse? Más que respuestas, ofrece umbrales.' },
+  'fabulas5': { collection: 'Colección Verde · Microrelatos', collectionColor: '#4ABF8A', title: 'Fábulas Oníricas V', desc: 'Los grandes dilemas humanos siguen desplegándose a través del símbolo y el sueño. Cada texto es un espejo colocado en el ángulo exacto para incomodar.' },
+  'fabulas6': { collection: 'Colección Verde · Microrelatos', collectionColor: '#4ABF8A', title: 'Fábulas Oníricas VI', desc: 'El cierre del ciclo verde. Las fábulas alcanzan aquí su mayor densidad simbólica — el lector que haya llegado hasta aquí ya no saldrá igual.' },
+  'siete-esotericos': {
+    collection: 'Colección Dorada · Ensayos',
+    collectionColor: '#C9A84C',
+    title: 'Siete Ensayos Esotéricos',
+    desc: 'Un recorrido por los grandes enigmas de la existencia desde una mirada filosófica, simbólica y espiritual. Hermetismo, existencialismo, pensamiento gnóstico y filosofía oriental se articulan para interrogar la experiencia humana. No respuestas cerradas — claves de lectura para quien se atreva a cuestionar los límites de lo real.'
+  },
+  'ficciones1': {
+    collection: 'Colección Violeta · Ficciones',
+    collectionColor: '#B07AFF',
+    title: 'Ficciones Esotéricas I',
+    desc: 'Un compendio de relatos filosófico-místicos que combinan el ensayo simbólico, la ficción ritual y el mito personal. Inspiradas en el esoterismo occidental, el gnosticismo, la mitología ancestral y la filosofía del lenguaje, estas narraciones descienden a lo más profundo del Abismo en busca de verdades veladas por la razón. Más que relatos, estas ficciones son umbrales. Quien las cruce, no saldrá indemne.'
+  },
+  'ficciones2': { collection: 'Colección Violeta · Ficciones', collectionColor: '#B07AFF', title: 'Ficciones Esotéricas II', desc: 'El segundo volumen desciende más profundo en el territorio de lo simbólico. Grimorios prohibidos, ecuaciones que desfiguran la realidad y viajes a inframundos donde lo sagrado y lo profano se vuelven indistinguibles.' },
+  'ficciones3': { collection: 'Colección Violeta · Ficciones', collectionColor: '#B07AFF', title: 'Ficciones Esotéricas III', desc: 'Rituales arquetípicos y mitos personales se entrelazan en este tercer volumen. La historia y el mito, lo real y lo onírico, cuestionan los límites del ser, el conocimiento y el tiempo.' },
+  'ficciones4': { collection: 'Colección Violeta · Ficciones', collectionColor: '#B07AFF', title: 'Ficciones Esotéricas IV', desc: 'Lo desconocido no como objeto de miedo, sino como camino. Este volumen enfrenta al lector con las estructuras más profundas del inconsciente colectivo a través de la ficción ritual.' },
+  'ficciones5': { collection: 'Colección Violeta · Ficciones', collectionColor: '#B07AFF', title: 'Ficciones Esotéricas V', desc: 'El quinto umbral de la colección violeta. Narraciones donde el lenguaje mismo se convierte en operación mágica — cada texto es un acto, no solo una lectura.' },
+  'ficciones6': { collection: 'Colección Violeta · Ficciones', collectionColor: '#B07AFF', title: 'Ficciones Esotéricas VI', desc: 'La mitología ancestral y el esoterismo occidental convergen en este volumen. Los personajes no son protagonistas de historias — son instrumentos de fuerzas que los trascienden.' },
+  'ficciones7': { collection: 'Colección Violeta · Ficciones', collectionColor: '#B07AFF', title: 'Ficciones Esotéricas VII', desc: 'Séptimo volumen de la colección más profunda del catálogo. La filosofía del lenguaje y el gnosticismo se fusionan en relatos donde nombrar algo es, inevitablemente, transformarlo.' },
+  'ficciones8': { collection: 'Colección Violeta · Ficciones', collectionColor: '#B07AFF', title: 'Ficciones Esotéricas VIII', desc: 'Penúltimo umbral. Los textos de este volumen operan en el límite entre la ficción y el tratado esotérico. La voz narrativa ya no distingue entre el que cuenta y lo que cuenta.' },
+  'ficciones9': { collection: 'Colección Violeta · Ficciones', collectionColor: '#B07AFF', title: 'Ficciones Esotéricas IX', desc: 'El cierre del ciclo violeta. Nueve volúmenes, nueve descensos. Este último texto es también una salida — aunque quien llegue hasta aquí sabrá que salir no significa volver al mismo lugar.' }
+};
+
+function openModal(id) {
+  const b = books[id];
+  if (!b) return;
+  document.getElementById('modalCollection').style.color = b.collectionColor;
+  document.getElementById('modalCollection').textContent = b.collection;
+  document.getElementById('modalTitle').textContent = b.title;
+  document.getElementById('modalDesc').textContent = b.desc;
+  document.getElementById('modalOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+function closeModalOutside(e) {
+  if (e.target === document.getElementById('modalOverlay')) closeModal();
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+// EMAIL
+function subscribeEmail() {
+  const val = document.getElementById('emailInput').value;
+  if (!val || !val.includes('@')) return;
+  document.getElementById('emailForm').style.display = 'none';
+  document.getElementById('emailConfirm').style.display = 'block';
+  console.log('New subscriber:', val);
+  // Aquí conectar con tu backend o servicio de email (Mailchimp, etc.)
+}
+</script>
+</body>
+</html>
