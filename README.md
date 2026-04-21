@@ -122,7 +122,7 @@ Tipografías cargadas desde Google Fonts:
 Los libros se adquieren directamente con el autor, sin intermediarios:
 
 - **WhatsApp:** [+54 9 11 5106-2286](https://wa.me/5491151062286)
-- **Email:** contacto@ziguratediciones.com
+- **Email:** marcos.e.martinez@hotmail.com.ar
 
 ---
 
