@@ -31,8 +31,6 @@ zigurat/
         └── Colección Violeta 1.png … Colección Violeta 9.png
 ```
 
-> **Importante:** la carpeta `assets/` no está incluida en el repositorio. Las imágenes deben colocarse manualmente siguiendo la estructura de rutas indicada arriba.
-
 ---
 
 ## Cómo usar
