@@ -69,22 +69,62 @@ const books = {
   'ficciones1': {
     collection: 'Colección Violeta · Ficciones',
     collectionColor: '#B07AFF',
-    title: 'Ficciones Esotéricas I',
-    desc: 'Un compendio de relatos filosófico-místicos que combinan el ensayo simbólico, la ficción ritual y el mito personal. Inspiradas en el esoterismo occidental, el gnosticismo, la mitología ancestral y la filosofía del lenguaje, estas narraciones descienden a lo más profundo del Abismo en busca de verdades veladas por la razón. Más que relatos, estas ficciones son umbrales. Quien las cruce, no saldrá indemne.'
+    title: 'Sobre la Oscuridad',
+    desc: 'Un tratado filosófico y poético que explora la Oscuridad como principio primordial, anterior a la luz. Dividido en cuatro libros, defiende la oscuridad como origen, madre, refugio y fuente de conocimiento verdadero, en contraposición a la luz como mera ilusión o máscara.'
   },
-  'ficciones2': { collection: 'Colección Violeta · Ficciones', collectionColor: '#B07AFF', title: 'Ficciones Esotéricas II', desc: 'El segundo volumen desciende más profundo en el territorio de lo simbólico. Grimorios prohibidos, ecuaciones que desfiguran la realidad y viajes a inframundos donde lo sagrado y lo profano se vuelven indistinguibles.' },
-  'ficciones3': { collection: 'Colección Violeta · Ficciones', collectionColor: '#B07AFF', title: 'Ficciones Esotéricas III', desc: 'Rituales arquetípicos y mitos personales se entrelazan en este tercer volumen. La historia y el mito, lo real y lo onírico, cuestionan los límites del ser, el conocimiento y el tiempo.' },
-  'ficciones4': { collection: 'Colección Violeta · Ficciones', collectionColor: '#B07AFF', title: 'Ficciones Esotéricas IV', desc: 'Lo desconocido no como objeto de miedo, sino como camino. Este volumen enfrenta al lector con las estructuras más profundas del inconsciente colectivo a través de la ficción ritual.' },
-  'ficciones5': { collection: 'Colección Violeta · Ficciones', collectionColor: '#B07AFF', title: 'Ficciones Esotéricas V', desc: 'El quinto umbral de la colección violeta. Narraciones donde el lenguaje mismo se convierte en operación mágica — cada texto es un acto, no solo una lectura.' },
-  'ficciones6': { collection: 'Colección Violeta · Ficciones', collectionColor: '#B07AFF', title: 'Ficciones Esotéricas VI', desc: 'La mitología ancestral y el esoterismo occidental convergen en este volumen. Los personajes no son protagonistas de historias — son instrumentos de fuerzas que los trascienden.' },
-  'ficciones7': { collection: 'Colección Violeta · Ficciones', collectionColor: '#B07AFF', title: 'Ficciones Esotéricas VII', desc: 'Séptimo volumen de la colección más profunda del catálogo. La filosofía del lenguaje y el gnosticismo se fusionan en relatos donde nombrar algo es, inevitablemente, transformarlo.' },
-  'ficciones8': { collection: 'Colección Violeta · Ficciones', collectionColor: '#B07AFF', title: 'Ficciones Esotéricas VIII', desc: 'Los textos de este volumen operan en el límite entre la ficción y el tratado esotérico. La voz narrativa ya no distingue entre el que cuenta y lo que cuenta.' },
-  'ficciones9': { collection: 'Colección Violeta · Ficciones', collectionColor: '#B07AFF', title: 'Ficciones Esotéricas IX', desc: 'Noveno umbral. Nueve descensos, nueve transformaciones. Este texto es también una antesala — quien llegue hasta aquí sabrá que el ciclo no ha terminado.' },
+  'ficciones2': {
+    collection: 'Colección Violeta · Ficciones',
+    collectionColor: '#B07AFF',
+    title: 'Sobre el Árbol Rúnico y la Cábala',
+    desc: 'Un manual esotérico que sincroniza el Yggdrasil nórdico con el Árbol de la Vida de la Cábala. Incluye rituales, meditaciones y el uso de runas para recorrer los nueve mundos, integrando sefirots y qlifots, con el fin de lograr autoconocimiento y transformación espiritual.'
+  },
+  'ficciones3': {
+    collection: 'Colección Violeta · Ficciones',
+    collectionColor: '#B07AFF',
+    title: 'El Libro Negro de Alsophocus',
+    desc: 'La traducción de un grimorio prohibido vinculado a un hechicero legendario. Contiene rituales de nigromancia y demonología, descripciones de entidades extradimensionales, advertencias sobre sus peligros y relatos de quienes sucumbieron a su poder corruptor.'
+  },
+  'ficciones4': {
+    collection: 'Colección Violeta · Ficciones',
+    collectionColor: '#B07AFF',
+    title: 'Sobre los Poderes Sumerios',
+    desc: 'Una guía espiritual basada en la mitología mesopotámica, centrada en la autodeificación y la integración de arquetipos como Tiamat, Inanna y Enki. Propone rituales, altares y ciclos festivos reinterpretados para el empoderamiento personal y la transformación interior.'
+  },
+  'ficciones5': {
+    collection: 'Colección Violeta · Ficciones',
+    collectionColor: '#B07AFF',
+    title: 'Los 4 Reyes de Alu-Ragaal',
+    desc: 'Un texto sobre una ciudad legendaria y sus cuatro reyes espirituales (Enkalludur, Zigur-Namgal, Ashurkallim y Namrutur), cada uno asociado a un punto cardinal y a fuerzas como la sombra, el caos, el abismo y la protección. Incluye rituales de invocación y entidades sirvientes.'
+  },
+  'ficciones6': {
+    collection: 'Colección Violeta · Ficciones',
+    collectionColor: '#B07AFF',
+    title: 'Un Manuscrito Descifrado',
+    desc: 'El relato del descubrimiento y traducción de un antiguo códice hallado en Anatolia, escrito en sumerio, griego y avéstico. Describe un viaje al inframundo sumerio y un testimonio atribuido a Calístenes de Rodas, advirtiendo sobre los peligros de abrir ciertos umbrales espirituales.'
+  },
+  'ficciones7': {
+    collection: 'Colección Violeta · Ficciones',
+    collectionColor: '#B07AFF',
+    title: 'Sobre el Poder de las Serpientes',
+    desc: 'Una bitácora que explora el simbolismo y poder de serpientes mitológicas de distintas culturas (Persia, Sumeria, Egipto, Grecia, tradición hebrea, nórdica, azteca). Incluye ritos de invocación, descripciones de sus efectos y advertencias sobre la corrupción que pueden desatar.'
+  },
+  'ficciones8': {
+    collection: 'Colección Violeta · Ficciones',
+    collectionColor: '#B07AFF',
+    title: 'Sobre el Poder Paleolítico',
+    desc: 'Una reflexión sobre la espiritualidad perdida del Paleolítico, proponiendo rituales adaptados a la vida urbana para reconectar con fuerzas ancestrales (fuego interior, noche, umbrales) y con espíritus animales como el bisonte, el lobo, el oso y la serpiente.'
+  },
+  'ficciones9': {
+    collection: 'Colección Violeta · Ficciones',
+    collectionColor: '#B07AFF',
+    title: 'Las Nueve Moradas de los Muertos',
+    desc: 'Un estudio sobre los destinos del alma en la mitología nórdica, describiendo nueve reinos funerarios (Gefjun, Vingolf, Fólkvangr, Valhalla, Palacio de Aegir, Naströnd, Helheim, Helgafell y Fensalir). Incluye meditaciones y cantos (Galdr) para armonizar con los muertos.'
+  },
   'ficciones10': {
     collection: 'Colección Violeta · Ficciones',
     collectionColor: '#B07AFF',
     title: 'Ecuaciones de la No Forma',
-    desc: 'Décimo volumen de la Colección Violeta. Un matemático encuentra un registro cifrado en un edificio abandonado: fórmulas que no describen la realidad sino que la modifican. A medida que resuelve las ecuaciones, la percepción del tiempo se disuelve y la identidad se fragmenta. El lenguaje es la prisión — la matemática, la llave. Quien se atreva a girarla verá los muros de la realidad derrumbarse.'
+    desc: 'Un texto perturbador que mezcla matemáticas y ocultismo, presentando ecuaciones como llaves para modificar la realidad y contactar con dioses olvidados previos a la humanidad. Advierte sobre la disolución del yo y el lenguaje como prisión cósmica.'
   }
 };
 
