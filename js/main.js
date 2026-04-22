@@ -147,12 +147,49 @@ function closeModalOutside(e) {
 }
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 
-// EMAIL
-function subscribeEmail() {
-  const val = document.getElementById('emailInput').value;
-  if (!val || !val.includes('@')) return;
-  document.getElementById('emailForm').style.display = 'none';
-  document.getElementById('emailConfirm').style.display = 'block';
-  console.log('New subscriber:', val);
-  // Aquí conectar con tu backend o servicio de email (Mailchimp, etc.)
+// ── SUSCRIPCIÓN A NOVEDADES ────────────────────────────────────────────────
+async function subscribeEmail() {
+  const input   = document.getElementById('emailInput');
+  const btn     = document.querySelector('.email-submit');
+  const form    = document.getElementById('emailForm');
+  const confirm = document.getElementById('emailConfirm');
+  const email   = input.value.trim();
+
+  // Validación básica en cliente
+  if (!email || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
+    input.style.borderColor = 'rgba(196,26,53,0.6)';
+    input.focus();
+    return;
+  }
+  input.style.borderColor = '';
+
+  // Estado de carga
+  btn.textContent = '...';
+  btn.disabled = true;
+
+  try {
+    const res  = await fetch('/subscribe', {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify({ email }),
+    });
+    const data = await res.json();
+
+    if (data.ok) {
+      form.style.display    = 'none';
+      confirm.style.display = 'block';
+      confirm.textContent   = data.new
+        ? '— Recibido. Te escribiremos pronto. —'
+        : '— Ya estás en la lista. —';
+    } else {
+      input.style.borderColor = 'rgba(196,26,53,0.6)';
+      btn.textContent = 'Reintentar';
+      btn.disabled = false;
+    }
+  } catch {
+    // Si el fetch falla (sin conexión, etc.) igual mostramos confirmación
+    form.style.display    = 'none';
+    confirm.style.display = 'block';
+    confirm.textContent   = '— Recibido. —';
+  }
 }
