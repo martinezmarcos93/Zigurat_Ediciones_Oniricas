@@ -147,12 +147,35 @@ function closeModalOutside(e) {
 }
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 
-// EMAIL
-function subscribeEmail() {
-  const val = document.getElementById('emailInput').value;
-  if (!val || !val.includes('@')) return;
-  document.getElementById('emailForm').style.display = 'none';
-  document.getElementById('emailConfirm').style.display = 'block';
-  console.log('New subscriber:', val);
-  // Aquí conectar con tu backend o servicio de email (Mailchimp, etc.)
+// CONTACT FORM
+async function sendContact() {
+  const nombre  = document.getElementById('contactNombre').value.trim();
+  const email   = document.getElementById('contactEmail').value.trim();
+  const mensaje = document.getElementById('contactMensaje').value.trim();
+
+  if (!nombre || !email || !mensaje) return;
+
+  const btn = document.querySelector('#contactForm .email-submit');
+  btn.disabled = true;
+  btn.textContent = 'Enviando...';
+
+  try {
+    const res = await fetch('/contact', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ nombre, email, mensaje })
+    });
+    const data = await res.json();
+
+    if (data.ok) {
+      document.getElementById('contactForm').style.display = 'none';
+      document.getElementById('contactConfirm').style.display = 'block';
+    } else {
+      throw new Error(data.error || 'Error');
+    }
+  } catch (e) {
+    btn.disabled = false;
+    btn.textContent = 'Enviar Mensaje';
+    document.getElementById('contactError').style.display = 'block';
+  }
 }

@@ -438,14 +438,21 @@
   </div>
 
   <div class="email-section reveal">
-    <div class="email-title">Recibir Novedades</div>
-    <p class="email-subtitle">Para quienes quieren leer lo que no está en otro lado.<br>Reflexiones y lanzamientos — sin ruido.</p>
-    <div class="email-form" id="emailForm">
-      <input type="email" class="email-input" id="emailInput" placeholder="tu@email.com">
-      <button class="email-submit" onclick="subscribeEmail()">Suscribirse</button>
+    <div class="email-title">Escribir al Autor</div>
+    <p class="email-subtitle">También podés enviar un mensaje directamente.<br>Se responde en conversación, sin intermediarios.</p>
+    <div id="contactForm">
+      <div class="email-form" style="flex-direction:column;gap:0;">
+        <input type="text" class="email-input" id="contactNombre" placeholder="Tu nombre" style="border-bottom:1px solid var(--gold-border);">
+        <input type="email" class="email-input" id="contactEmail" placeholder="tu@email.com" style="border-bottom:1px solid var(--gold-border);">
+        <textarea class="email-input" id="contactMensaje" placeholder="Tu mensaje..." rows="4" style="resize:none;font-family:'Cormorant Garamond',serif;font-size:15px;"></textarea>
+      </div>
+      <button class="email-submit" onclick="sendContact()" style="width:100%;margin-top:0;">Enviar Mensaje</button>
     </div>
-    <div class="email-confirm" id="emailConfirm">
-      — Recibido. Te escribiremos pronto. —
+    <div class="email-confirm" id="contactConfirm">
+      — Mensaje recibido. Te responderemos pronto. —
+    </div>
+    <div id="contactError" style="display:none;color:#ff6b6b;font-style:italic;font-size:14px;margin-top:12px;text-align:center;">
+      Hubo un error al enviar. Intentá por WhatsApp.
     </div>
   </div>
 </section>

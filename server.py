@@ -9,13 +9,17 @@ Producción:        gunicorn server:app   (Render lo llama automáticamente)
 import os
 import json
 import re
-from datetime import datetime
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
 
 # ── Detección de entorno ──────────────────────────────────────────────────────
 IS_PRODUCTION = os.environ.get("RENDER") == "true"
-PORT = int(os.environ.get("PORT", 8080))
-DIRECTORY = os.path.dirname(os.path.abspath(__file__))
-SUBSCRIBERS_FILE = os.path.join(DIRECTORY, "subscribers.txt")
+PORT          = int(os.environ.get("PORT", 8080))
+DIRECTORY     = os.path.dirname(os.path.abspath(__file__))
+
+GMAIL_USER     = os.environ.get("GMAIL_USER", "")
+GMAIL_PASSWORD = os.environ.get("GMAIL_APP_PASSWORD", "")
 
 EMAIL_RE = re.compile(r"^[^@\s]+@[^@\s]+\.[^@\s]+$")
 
@@ -34,52 +38,61 @@ def app(environ, start_response):
         ])
         return [b""]
 
-    # ── POST /subscribe ───────────────────────────────────────────────────────
-    if method == "POST" and path == "/subscribe":
+    # ── POST /contact ─────────────────────────────────────────────────────────
+    if method == "POST" and path == "/contact":
         try:
             length = int(environ.get("CONTENT_LENGTH", 0))
             body   = environ["wsgi.input"].read(length).decode("utf-8")
             data   = json.loads(body)
-            email  = data.get("email", "").strip().lower()
 
+            nombre  = data.get("nombre", "").strip()
+            email   = data.get("email", "").strip().lower()
+            mensaje = data.get("mensaje", "").strip()
+
+            # Validaciones básicas
+            if not nombre:
+                return _json(start_response, 400, {"ok": False, "error": "Nombre requerido"})
             if not EMAIL_RE.match(email):
                 return _json(start_response, 400, {"ok": False, "error": "Email inválido"})
+            if not mensaje:
+                return _json(start_response, 400, {"ok": False, "error": "Mensaje requerido"})
 
-            # Verificar si ya existe
-            existing = set()
-            if os.path.exists(SUBSCRIBERS_FILE):
-                with open(SUBSCRIBERS_FILE, "r", encoding="utf-8") as f:
-                    for line in f:
-                        parts = line.strip().split("\t")
-                        if parts:
-                            existing.add(parts[0])
+            # Enviar email via Gmail SMTP
+            _send_email(nombre, email, mensaje)
 
-            if email in existing:
-                return _json(start_response, 200, {"ok": True, "new": False})
-
-            # Guardar nuevo suscriptor
-            with open(SUBSCRIBERS_FILE, "a", encoding="utf-8") as f:
-                timestamp = datetime.utcnow().strftime("%Y-%m-%d %H:%M UTC")
-                f.write(f"{email}\t{timestamp}\n")
-
-            print(f"  [+] Nuevo suscriptor: {email}")
-            return _json(start_response, 201, {"ok": True, "new": True})
+            print(f"  [+] Nuevo contacto de: {nombre} <{email}>")
+            return _json(start_response, 200, {"ok": True})
 
         except Exception as e:
-            print(f"  [!] Error en /subscribe: {e}")
-            return _json(start_response, 500, {"ok": False, "error": "Error interno"})
-
-    # ── GET /subscribers (solo en desarrollo, para ver la lista) ─────────────
-    if method == "GET" and path == "/subscribers" and not IS_PRODUCTION:
-        if os.path.exists(SUBSCRIBERS_FILE):
-            with open(SUBSCRIBERS_FILE, "r", encoding="utf-8") as f:
-                lines = [l.strip() for l in f if l.strip()]
-        else:
-            lines = []
-        return _json(start_response, 200, {"total": len(lines), "subscribers": lines})
+            print(f"  [!] Error en /contact: {e}")
+            return _json(start_response, 500, {"ok": False, "error": "Error al enviar el mensaje"})
 
     # ── Archivos estáticos ────────────────────────────────────────────────────
     return _serve_static(environ, start_response, path)
+
+
+def _send_email(nombre, email_remitente, mensaje):
+    """Envía el mensaje de contacto a la casilla configurada via Gmail SMTP."""
+    msg = MIMEMultipart("alternative")
+    msg["Subject"] = f"Zigurat — Consulta de {nombre}"
+    msg["From"]    = GMAIL_USER
+    msg["To"]      = GMAIL_USER
+    msg["Reply-To"] = email_remitente
+
+    cuerpo = f"""\
+Nuevo mensaje desde el sitio de Zigurat Ediciones Oníricas.
+
+Nombre:   {nombre}
+Email:    {email_remitente}
+
+Mensaje:
+{mensaje}
+"""
+    msg.attach(MIMEText(cuerpo, "plain", "utf-8"))
+
+    with smtplib.SMTP_SSL("smtp.gmail.com", 465) as smtp:
+        smtp.login(GMAIL_USER, GMAIL_PASSWORD)
+        smtp.sendmail(GMAIL_USER, GMAIL_USER, msg.as_bytes())
 
 
 def _json(start_response, status_code, data):
@@ -139,10 +152,9 @@ if __name__ == "__main__":
     from wsgiref.simple_server import make_server
 
     print()
-    print("  ▲  ZIGURAT EDICIONES ONICAS")
+    print("  ▲  ZIGURAT EDICIONES ONÍRICAS")
     print("  ─────────────────────────────────")
     print(f"  Servidor: http://localhost:{PORT}")
-    print(f"  Ver suscriptores: http://localhost:{PORT}/subscribers")
     print("  Ctrl+C para detener")
     print()
 
