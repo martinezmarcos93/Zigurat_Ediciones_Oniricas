@@ -46,6 +46,9 @@ def debug():
     }
     return jsonify(result)
 
+@flask_app.route("/robots.txt")
+def robots():
+    return send_from_directory(BASE_DIR, "robots.txt")
 
 # ── Archivos estáticos ────────────────────────────────────────────────────────
 @flask_app.route("/assets/<path:filename>")
