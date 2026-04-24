@@ -12,11 +12,20 @@ import re
 from datetime import datetime
 from flask import Flask, send_from_directory, request, jsonify, abort
 
+# Usar ruta absoluta basada en la ubicación del archivo server.py
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+ASSETS_DIR = os.path.join(BASE_DIR, "assets")
 SUBSCRIBERS_FILE = os.path.join(BASE_DIR, "subscribers.txt")
 EMAIL_RE = re.compile(r"^[^@\s]+@[^@\s]+\.[^@\s]+$")
 
-flask_app = Flask(__name__, static_folder=BASE_DIR, static_url_path="")
+flask_app = Flask(__name__, static_folder=None)
+
+# ── Debug: imprimir rutas al arrancar ─────────────────────────────────────────
+print(f"  BASE_DIR:   {BASE_DIR}")
+print(f"  ASSETS_DIR: {ASSETS_DIR}")
+print(f"  assets exists: {os.path.isdir(ASSETS_DIR)}")
+if os.path.isdir(ASSETS_DIR):
+    print(f"  assets contents: {os.listdir(ASSETS_DIR)}")
 
 
 # ── Página principal ──────────────────────────────────────────────────────────
@@ -25,10 +34,23 @@ def index():
     return send_from_directory(BASE_DIR, "index.html")
 
 
-# ── Archivos estáticos (imágenes, css, js, etc.) ─────────────────────────────
+# ── Debug route: ver qué hay en el servidor ───────────────────────────────────
+@flask_app.route("/debug")
+def debug():
+    result = {
+        "base_dir": BASE_DIR,
+        "assets_dir": ASSETS_DIR,
+        "assets_exists": os.path.isdir(ASSETS_DIR),
+        "base_files": os.listdir(BASE_DIR) if os.path.isdir(BASE_DIR) else [],
+        "assets_files": os.listdir(ASSETS_DIR) if os.path.isdir(ASSETS_DIR) else [],
+    }
+    return jsonify(result)
+
+
+# ── Archivos estáticos ────────────────────────────────────────────────────────
 @flask_app.route("/assets/<path:filename>")
 def assets(filename):
-    return send_from_directory(os.path.join(BASE_DIR, "assets"), filename)
+    return send_from_directory(ASSETS_DIR, filename)
 
 @flask_app.route("/css/<path:filename>")
 def css(filename):
@@ -95,7 +117,7 @@ if __name__ == "__main__":
     print("  ▲  ZIGURAT EDICIONES ONÍRICAS")
     print("  ─────────────────────────────────")
     print(f"  Servidor: http://localhost:{PORT}")
-    print(f"  Ver suscriptores: http://localhost:{PORT}/subscribers")
+    print(f"  Debug:    http://localhost:{PORT}/debug")
     print("  Ctrl+C para detener")
     print()
     flask_app.run(host="0.0.0.0", port=PORT, debug=False)
