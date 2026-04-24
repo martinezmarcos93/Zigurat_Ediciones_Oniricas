@@ -34,11 +34,24 @@ def index():
     return send_from_directory(BASE_DIR, "index.html")
 
 
-@flask_app.before_request
-def allow_facebook_bot():
+@flask_app.after_request
+def allow_social_bots(response):
+    """Asegura que los bots de redes sociales siempre reciban 200."""
     ua = request.headers.get("User-Agent", "").lower()
-    if "facebookexternalhit" in ua:
-        pass  # no bloquear, dejar pasar
+    social_bots = (
+        "facebookexternalhit", "facebot",
+        "twitterbot", "whatsapp",
+        "linkedinbot", "telegrambot",
+    )
+    if any(bot in ua for bot in social_bots):
+        # Si el servidor devolvió un error, reemplazar con el index
+        if response.status_code >= 400:
+            from flask import make_response
+            with open(os.path.join(BASE_DIR, "index.html"), "rb") as f:
+                content = f.read()
+            response = make_response(content, 200)
+            response.headers["Content-Type"] = "text/html; charset=utf-8"
+    return response
 
 # ── Debug route: ver qué hay en el servidor ───────────────────────────────────
 @flask_app.route("/debug")
