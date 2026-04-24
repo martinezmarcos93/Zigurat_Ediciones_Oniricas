@@ -34,6 +34,12 @@ def index():
     return send_from_directory(BASE_DIR, "index.html")
 
 
+@flask_app.before_request
+def allow_facebook_bot():
+    ua = request.headers.get("User-Agent", "").lower()
+    if "facebookexternalhit" in ua:
+        pass  # no bloquear, dejar pasar
+
 # ── Debug route: ver qué hay en el servidor ───────────────────────────────────
 @flask_app.route("/debug")
 def debug():
