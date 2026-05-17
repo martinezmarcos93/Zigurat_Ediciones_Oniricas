@@ -861,6 +861,88 @@ footer {
 .reveal-delay-2 { transition-delay: 0.2s; }
 .reveal-delay-3 { transition-delay: 0.3s; }
 
+/* AUTOR / THELEMA */
+#autor {
+  background: var(--onyx-mid);
+  border-top: 1px solid var(--border);
+}
+.thelema-books {
+  max-width: 860px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  background: var(--border);
+}
+.thelema-card {
+  background: var(--onyx-card);
+  display: flex;
+  transition: background 0.3s;
+}
+.thelema-card:hover { background: rgba(201,168,76,0.02); }
+.thelema-cover {
+  width: 180px;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+.thelema-cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  filter: brightness(0.88);
+  transition: filter 0.4s;
+}
+.thelema-card:hover .thelema-cover img { filter: brightness(1); }
+.thelema-info {
+  padding: 40px 44px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-left: 1px solid var(--border);
+}
+.thelema-meta {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 8px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 12px;
+}
+.thelema-title {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(20px, 2.5vw, 26px);
+  color: var(--cream);
+  line-height: 1.2;
+  margin-bottom: 16px;
+}
+.thelema-divider {
+  width: 40px;
+  height: 1px;
+  background: var(--gold-border);
+  margin-bottom: 20px;
+}
+.thelema-desc {
+  font-size: 15px;
+  font-style: italic;
+  color: var(--cream-muted);
+  line-height: 1.85;
+}
+.thelema-nota {
+  max-width: 860px;
+  margin: 48px auto 0;
+  text-align: center;
+  padding: 48px;
+  border: 1px solid var(--gold-border);
+  background: rgba(201,168,76,0.02);
+}
+.thelema-nota p {
+  font-size: 17px;
+  font-style: italic;
+  color: var(--cream-muted);
+  line-height: 1.8;
+}
+
 /* RESPONSIVE */
 @media (max-width: 768px) {
   nav { padding: 16px 24px; }
@@ -875,4 +957,8 @@ footer {
   .hero-cta { flex-direction: column; align-items: center; }
   .email-form { flex-direction: column; }
   .modal { padding: 32px 24px; }
+  .thelema-card { flex-direction: column; }
+  .thelema-cover { width: 100%; height: 260px; }
+  .thelema-info { padding: 28px 24px; border-left: none; border-top: 1px solid var(--border); }
+  .thelema-nota { padding: 32px 24px; }
 }
